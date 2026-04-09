@@ -1,1 +1,1 @@
-# ai-kb-geerator
+# ai-kb-generator
