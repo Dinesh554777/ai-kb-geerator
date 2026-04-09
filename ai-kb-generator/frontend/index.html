@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Knowledge Base Generator | Smart Support Intelligence</title>
+  <meta name="description" content="Automatically transform resolved customer support conversations into polished, searchable knowledge base articles using AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- SIDEBAR NAV -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <span class="logo-text">KBGen AI</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-page="generator" onclick="showPage('generator')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Generate Article
+      </a>
+      <a class="nav-item" data-page="library" onclick="showPage('library')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Article Library
+      </a>
+      <a class="nav-item" data-page="search" onclick="showPage('search')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search
+      </a>
+      <a class="nav-item" data-page="patterns" onclick="showPage('patterns')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Pattern Insights
+      </a>
+      <a class="nav-item" data-page="dashboard" onclick="showPage('dashboard')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="api-status" id="apiStatus">
+        <span class="status-dot demo"></span>
+        <span>Demo Mode</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Generate KB Article</h1>
+        <p class="page-subtitle" id="pageSubtitle">Paste a resolved support conversation to auto-generate an article</p>
+      </div>
+      <div class="topbar-right">
+        <div class="stats-pill" id="headerStats">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span id="totalArticleCount">0</span> articles
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════ PAGE: GENERATOR ═══════════ -->
+    <section class="page active" id="page-generator">
+      <div class="generator-layout">
+        <!-- Input Panel -->
+        <div class="panel input-panel">
+          <div class="panel-header">
+            <h2>📋 Paste Conversation</h2>
+            <div class="demo-buttons">
+              <span class="label-sm">Quick demo:</span>
+              <div id="demoButtonsContainer"></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <textarea
+              id="conversationInput"
+              class="conversation-textarea"
+              placeholder="Paste a resolved support conversation here...
+
+Example format:
+Customer: I can't log into my account.
+Agent: Let me help you reset your password.
+Customer: Thanks, that worked!
+Agent: Great! Have a good day."
+            ></textarea>
+            <div class="input-footer">
+              <span class="char-count" id="charCount">0 characters</span>
+              <div class="input-actions">
+                <button class="btn btn-ghost" onclick="clearInput()">Clear</button>
+                <button class="btn btn-primary" onclick="processConversation()" id="processBtn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  Generate Article
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="panel output-panel" id="outputPanel">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">🤖</div>
+            <h3>Ready to generate</h3>
+            <p>Paste a conversation on the left and click <strong>Generate Article</strong> to begin</p>
+            <div class="pipeline-steps">
+              <div class="step"><span>1</span>Parse Conversation</div>
+              <div class="step-arrow">→</div>
+              <div class="step"><span>2</span>AI Extraction</div>
+              <div class="step-arrow">→</div>
+              <div class="step"><span>3</span>Generate Article</div>
+              <div class="step-arrow">→</div>
+              <div class="step"><span>4</span>Save & Index</div>
+            </div>
+          </div>
+          <div class="loading-state hidden" id="loadingState">
+            <div class="ai-processing">
+              <div class="processing-ring"></div>
+              <div class="processing-inner">🧠</div>
+            </div>
+            <h3>AI is analysing...</h3>
+            <div class="processing-steps" id="processingSteps">
+              <div class="proc-step active" id="step1">📥 Parsing conversation structure</div>
+              <div class="proc-step" id="step2">🔍 Extracting issue & solution</div>
+              <div class="proc-step" id="step3">🏷️ Categorising and tagging</div>
+              <div class="proc-step" id="step4">✍️ Generating KB article</div>
+            </div>
+          </div>
+          <div class="article-result hidden" id="articleResult"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PAGE: LIBRARY ═══════════ -->
+    <section class="page" id="page-library">
+      <div class="library-controls">
+        <div class="filter-tabs" id="categoryTabs">
+          <button class="filter-tab active" onclick="filterLibrary('')">All</button>
+          <button class="filter-tab" onclick="filterLibrary('Account & Billing')">Account & Billing</button>
+          <button class="filter-tab" onclick="filterLibrary('Technical Issues')">Technical Issues</button>
+          <button class="filter-tab" onclick="filterLibrary('Shipping & Delivery')">Shipping & Delivery</button>
+          <button class="filter-tab" onclick="filterLibrary('Returns & Refunds')">Returns & Refunds</button>
+          <button class="filter-tab" onclick="filterLibrary('Security')">Security</button>
+          <button class="filter-tab" onclick="filterLibrary('Product Usage')">Product Usage</button>
+        </div>
+      </div>
+      <div class="articles-grid" id="articlesGrid">
+        <div class="empty-library">
+          <div class="empty-icon">📚</div>
+          <h3>No articles yet</h3>
+          <p>Generate your first article from the Generator page</p>
+          <button class="btn btn-primary" onclick="showPage('generator')">Start Generating</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PAGE: SEARCH ═══════════ -->
+    <section class="page" id="page-search">
+      <div class="search-container">
+        <div class="search-box-large">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" class="search-input-large" placeholder="Search articles by keyword, category, or tag..." oninput="handleSearch(this.value)" />
+          <kbd>Enter</kbd>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PAGE: PATTERNS ═══════════ -->
+    <section class="page" id="page-patterns">
+      <div class="patterns-layout">
+        <div class="panel">
+          <div class="panel-header"><h2>🔥 Trending Tags</h2></div>
+          <div class="panel-body" id="trendingTags">
+            <p class="muted">Loading...</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h2>🔗 Similar Article Clusters</h2></div>
+          <div class="panel-body" id="articleClusters">
+            <p class="muted">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PAGE: DASHBOARD ═══════════ -->
+    <section class="page" id="page-dashboard">
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">📄</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Total Articles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-value" id="statPublished">0</div>
+          <div class="stat-label">Published</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">🔥</div>
+          <div class="stat-value" id="statCategories">0</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">👁️</div>
+          <div class="stat-value" id="statViews">0</div>
+          <div class="stat-label">Total Views</div>
+        </div>
+        <div class="panel full-width">
+          <div class="panel-header"><h2>📈 Category Distribution</h2></div>
+          <div class="panel-body" id="categoryChart"></div>
+        </div>
+        <div class="panel full-width">
+          <div class="panel-header"><h2>🏆 Most Viewed Articles</h2></div>
+          <div class="panel-body" id="mostViewed"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ MODAL: Article Viewer ═══════════ -->
+    <div class="modal-overlay hidden" id="articleModal" onclick="closeModal(event)">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

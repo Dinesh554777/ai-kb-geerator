@@ -1,0 +1,54 @@
+[
+  {
+    "id": "A67DBBEF",
+    "title": "Resolving Common Application Errors",
+    "category": "Technical Issues",
+    "subcategory": "App Errors",
+    "problem": "The customer encountered a technical error that prevented them from completing their intended action.",
+    "solution": "1. Refresh the page and try again.\n2. Clear your browser cache and cookies (Settings > Privacy > Clear Data).\n3. Try an alternative browser or device.\n4. Disable browser extensions temporarily.\n5. If the issue persists, contact support with a screenshot and your account email.",
+    "root_cause": "Most client-side errors are caused by stale cache, incompatible browser extensions, or temporary server blips.",
+    "tags": [
+      "error",
+      "bug",
+      "technical",
+      "troubleshoot",
+      "browser"
+    ],
+    "severity": "medium",
+    "estimated_read_time": "2 min read",
+    "helpful_tip": "Always use an up-to-date browser for the best experience.",
+    "views": 2,
+    "helpful_votes": 0,
+    "created_at": "2026-04-09T06:42:57.772960+00:00",
+    "updated_at": "2026-04-09T06:42:57.772960+00:00",
+    "source_preview": "Customer: Your app keeps crashing every time I open it. It just flashes and closes immediately. I'm on iPhone 14.\nAgent: I'm sorry to hear that! This sounds like a cache corruption issue that a few iOS 17 users have reported. Let me help.\nCustomer: Okay what do I do?\nAgent: First, force-close the ap...",
+    "status": "published",
+    "version": 1
+  },
+  {
+    "id": "EA832A81",
+    "title": "How to Reset Your Account Password",
+    "category": "Account & Billing",
+    "subcategory": "Password Management",
+    "problem": "The customer was unable to log into their account due to a forgotten or expired password.",
+    "solution": "1. Click 'Forgot Password' on the login page.\n2. Enter your registered email address.\n3. Check your inbox for a reset link (check spam if not received).\n4. Click the link and set a new password within 15 minutes.\n5. Log in with your new credentials.",
+    "root_cause": "Password expiry policy or user forgot credentials after extended inactivity.",
+    "tags": [
+      "password",
+      "login",
+      "account",
+      "reset",
+      "authentication"
+    ],
+    "severity": "medium",
+    "estimated_read_time": "2 min read",
+    "helpful_tip": "Enable 'Remember me' on trusted devices to reduce login friction.",
+    "views": 0,
+    "helpful_votes": 0,
+    "created_at": "2026-04-09T06:53:08.123427+00:00",
+    "updated_at": "2026-04-09T06:55:04.357202+00:00",
+    "source_preview": "Customer: I was charged twice for my subscription this month. I see two charges of $29.99 on my statement dated the 3rd and 4th.\nAgent: I sincerely apologise for this inconvenience. I can see the duplicate charge on our end. This was caused by a payment gateway timeout that triggered a retry.\nCustom...",
+    "status": "published",
+    "version": 2
+  }
+]
